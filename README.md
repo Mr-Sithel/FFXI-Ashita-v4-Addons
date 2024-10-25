@@ -5,6 +5,7 @@ Forked Addons
 ## Description
 
 XIVParty - Forked from Tirem (Added Bigger Icons and added a FFXI2 Dark version)
+- [tirem](https://github.com/tirem/XivParty)
 
 ### Private Servers
 This seems to work fine with private or retail servers.

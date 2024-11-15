@@ -1,5 +1,11 @@
 local gcinclude = T{};
 
+-- Set which Town bodies you have to true
+local kingdom_aketon = false
+local republic_aketon = false
+local federation_aketon = false
+local ducal_aketon = false
+
 local LockableEquipment = {
     ['Main'] = T{'Warp Cudgel', 'Rep. Signet Staff', 'Kgd. Signet Staff', 'Fed. Signet Staff', 'Treat Staff II', 'Trick Staff II'},
     ['Sub'] = T{},
@@ -19,6 +25,11 @@ local LockableEquipment = {
     ['Feet'] = T{'Powder Boots'}
 }
 
+local Towns = T{'Tavnazian Safehold','Al Zahbi','Aht Urhgan Whitegate','Nashmau','Southern San d\'Oria [S]','Bastok Markets [S]','Windurst Waters [S]','Southern San d\'Oria','Northern San d\'Oria','Port San d\'Oria','Chateau d\'Oraguille','Bastok Mines','Bastok Markets','Port Bastok','Metalworks','Windurst Waters','Windurst Walls','Port Windurst','Windurst Woods','Heavens Tower','Ru\'Lude Gardens','Upper Jeuno','Lower Jeuno','Port Jeuno','Rabao','Selbina','Mhaura','Kazham','Norg','Mog Garden'};
+local SandyTowns = T{'Southern San d\'Oria','Northern San d\'Oria','Port San d\'Oria','Chateau d\'Oraguille','Southern San d\'Oria [S]'};
+local WindyTowns = T{'Windurst Waters','Windurst Walls','Port Windurst','Windurst Woods','Heavens Tower','Windurst Waters [S]'};
+local BastokTowns = T{'Bastok Mines','Bastok Markets','Port Bastok','Metalworks','Bastok Markets [S]'};
+
 gcinclude.settings = {	
 	WScheck = true; --set to false if you dont want to use the WSdistance safety check
 	WSdistance = 4.7; --default max distance (yalms) to allow non-ranged WS to go off at if the above WScheck is true  was
@@ -27,8 +38,6 @@ gcinclude.settings = {
 gcdisplay = gFunc.LoadFile('common\\gcdisplay.lua');
 
 gcinclude.AliasList = T{'wsdistance'};
---gcinclude.SandyTowns = T{'Southern San d\'Oria','Northern San d\'Oria','Port San d\'Oria','Chateau d\'Oraguille'};
-gcinclude.Towns = T{'Tavnazian Safehold','Al Zahbi','Aht Urhgan Whitegate','Nashmau','Southern San d\'Oria [S]','Bastok Markets [S]','Windurst Waters [S]','Southern San d\'Oria','Northern San d\'Oria','Port San d\'Oria','Chateau d\'Oraguille','Bastok Mines','Bastok Markets','Port Bastok','Metalworks','Windurst Waters','Windurst Walls','Port Windurst','Windurst Woods','Heavens Tower','Ru\'Lude Gardens','Upper Jeuno','Lower Jeuno','Port Jeuno','Rabao','Selbina','Mhaura','Kazham','Norg','Mog Garden'};
 gcinclude.DistanceWS = T{'Flaming Arrow','Piercing Arrow','Dulling Arrow','Sidewinder','Blast Arrow','Arching Arrow','Empyreal Arrow','Refulgent Arrow','Apex Arrow','Namas Arrow','Jishnu\'s Randiance','Hot Shot','Split Shot','Sniper Shot','Slug Shot','Blast Shot','Heavy Shot','Detonator','Numbing Shot','Last Stand','Coronach','Wildfire','Trueflight','Leaden Salute','Myrkr','Dagan','Moonlight','Starlight'};
 gcinclude.NinNukes = T{'Katon: Ichi', 'Katon: Ni', 'Hyoton: Ichi', 'Hyoton: Ni', 'Huton: Ichi', 'Huton: Ni', 'Doton: Ichi', 'Doton: Ni', 'Raiton: Ichi', 'Raiton: Ni', 'Suiton: Ichi', 'Suiton: Ni'};
 gcinclude.DontThrow = T{'Nokizaru Shuriken', 'Atter Satchet', 'Bomb Core'};
@@ -72,24 +81,27 @@ function gcinclude.HandleCommands(args)
 		else
 			gcinclude.settings.WScheck = not gcinclude.settings.WScheck;
             print(chat.header('WSdistance'):append(chat.color1(70, 'WS distance check is now: ')):append(chat.color1(79, gcinclude.settings.WScheck)));	
-			print(chat.header('WSdistance'):append(chat.color1(70, 'When set to true: ')):append(chat.color1(78, 'Default WS distance: ')):append(chat.color1(79,'4.7')));
+            print(chat.header('WSdistance'):append(chat.color1(70, 'When set to true: ')):append(chat.color1(78, 'Default WS distance: ')):append(chat.color1(79,'4.7')));		
             print(chat.header('WSdistance'):append(chat.color1(70, 'Change WS distance by typing: ')):append(chat.color1(79, '/wsdistance ##')));			
 		end
     end
 end
 
-function gcinclude.SetTownGear()
-	local zone = gData.GetEnvironment();
-    if (zone.Area ~= nil) and (gcinclude.Towns:contains(zone.Area)) then gFunc.EquipSet('Town') end
-	--if (zone.Area ~= nil) and (gcinclude.SandyTowns:contains(zone.Area)) then gFunc.EquipSet('SandyTown') end
+function gcinclude.TownGear()
+    local environment = gData.GetEnvironment()
+	if (environment.Area ~= nil) and (Towns:contains(environment.Area)) then
+        gFunc.EquipSet('Town')
+        if (ducal_aketon == true) then
+            gFunc.Equip('Body', 'Ducal Aketon')
+        end
+    end
+    if (environment.Area ~= nil) and (SandyTowns:contains(environment.Area) and kingdom_aketon == true) then gFunc.Equip('Body', 'Kingdom Aketon') end
+    if (environment.Area ~= nil) and (BastokTowns:contains(environment.Area) and republic_aketon == true) then gFunc.Equip('Body', 'Republic Aketon') end
+    if (environment.Area ~= nil) and (WindyTowns:contains(environment.Area) and federation_aketon == true) then gFunc.Equip('Body', 'Federation Aketon') end
 end
 
 function gcinclude.SetVariables()
 	local player = gData.GetPlayer();     
-end
-
-function gcinclude.CheckDefault()
-	gcinclude.SetTownGear();	
 end
 
 function gcinclude.CheckWsBailout()

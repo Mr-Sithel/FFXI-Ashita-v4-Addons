@@ -107,6 +107,7 @@ profile.OnLoad = function()
 	AshitaCore:GetChatManager():QueueCommand(1, '/macro book 1');
     AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1');
 	gcdisplay.Initialize();
+	gcinclude.SetAlias();
 end
 
 profile.OnUnload = function()
@@ -115,6 +116,7 @@ profile.OnUnload = function()
 	AshitaCore:GetChatManager():QueueCommand(-1, '/unbind F12');
 	AshitaCore:GetChatManager():QueueCommand(-1, '/alias delete /war');
 	gcdisplay.Destroy();
+	gcinclude.ClearAlias();
 end
 
 profile.HandleCommand = function(args)

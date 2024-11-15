@@ -71,7 +71,8 @@ function gcinclude.HandleCommands(args)
             print(chat.header('WSdistance'):append(chat.color1(70, 'WS Distance is ON and set to: ')):append(chat.color1(79, gcinclude.settings.WSdistance)));
 		else
 			gcinclude.settings.WScheck = not gcinclude.settings.WScheck;
-            print(chat.header('WSdistance'):append(chat.color1(70, 'WS distance check is now: ')):append(chat.color1(79, gcinclude.settings.WScheck)));			
+            print(chat.header('WSdistance'):append(chat.color1(70, 'WS distance check is now: ')):append(chat.color1(79, gcinclude.settings.WScheck)));	
+			print(chat.header('WSdistance'):append(chat.color1(70, 'When set to true: ')):append(chat.color1(78, 'Default WS distance: ')):append(chat.color1(79,'4.7')));
             print(chat.header('WSdistance'):append(chat.color1(70, 'Change WS distance by typing: ')):append(chat.color1(79, '/wsdistance ##')));			
 		end
     end

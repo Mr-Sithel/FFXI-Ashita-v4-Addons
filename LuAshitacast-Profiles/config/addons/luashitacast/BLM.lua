@@ -101,7 +101,7 @@ local DayElementTable = {
     ['Lightsday'] = 'Light',
     ['Darksday'] = 'Dark'
 };
-    
+
 function ObiCheck(spell)
     local element = spell.Element;
     local zone = gData.GetEnvironment();
@@ -301,12 +301,12 @@ profile.HandleWeaponskill = function()
     local canWS = gcinclude.CheckWsBailout();
         if (canWS == false) then gFunc.CancelAction() return;
         else
-            local action = gData.GetAction();     
-			gFunc.EquipSet(sets.Ws);
-		end
+            local action = gData.GetAction();
+            gFunc.EquipSet(sets.Ws);
+        end
 end
 
-profile.HandleAbility = function()    
+profile.HandleAbility = function()
 end
 
 return profile;

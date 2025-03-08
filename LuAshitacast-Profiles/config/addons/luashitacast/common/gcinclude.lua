@@ -1,10 +1,18 @@
 local gcinclude = T{};
 
 -- Set which Town bodies you have to true
-local kingdom_aketon = false
-local republic_aketon = false
-local federation_aketon = false
+local kingdom_aketon = true
+local republic_aketon = true
+local federation_aketon = true
 local ducal_aketon = false
+
+-- Set Items below true/false if you have them
+local dream_boots = true        -- If true equips Dream Boots +1 when using Sneak Oil
+local dream_mittens = true      -- If true equips Dream Mittens +1 when using Prism Powders
+local skulkers_cape = false     -- If true equips Skulker's Cape when using Prism Powders
+local sleep_debuff = false       -- If true equips Opo-opo Necklace when slept
+local weak_debuff = false        -- If true equips Reraise Hairpin when weakened
+local doomed_debuff = false      -- If true uses Holy Water when doomed
 
 local LockableEquipment = {
     ['Main'] = T{'Warp Cudgel', 'Rep. Signet Staff', 'Kgd. Signet Staff', 'Fed. Signet Staff', 'Treat Staff II', 'Trick Staff II'},
@@ -12,7 +20,7 @@ local LockableEquipment = {
     ['Range'] = T{},
     ['Ammo'] = T{},
     ['Head'] = T{'Reraise Hairpin', 'Dream Hat +1'},
-    ['Neck'] = T{'Opo-opo Necklace'},
+    ['Neck'] = T{}, --'Opo-opo Necklace'
     ['Ear1'] = T{'Reraise Earring'},
     ['Ear2'] = T{'Reraise Earring'},
     ['Body'] = T{'Custom Gilet +1', 'Custom Top +1', 'Magna Gilet +1', 'Magna Top +1', 'Savage Top +1', 'Elder Gilet +1', 'Wonder Maillot +1', 'Wonder Top +1', 'Mandra. Suit'},
@@ -25,14 +33,33 @@ local LockableEquipment = {
     ['Feet'] = T{'Powder Boots'}
 }
 
+local LockableCraftingEquipment = {
+    ['Main'] = T{'Caduceus'},
+    ['Sub'] = T{},
+    ['Range'] = T{},
+    ['Ammo'] = T{},
+    ['Head'] = T{'Protective Spectacles', 'Magnifying Spectacles', 'Chef\'s Hat', 'Shaded Spectacles'},
+    ['Neck'] = T{},
+    ['Ear1'] = T{},
+    ['Ear2'] = T{},
+    ['Body'] = T{'Fsh. Tunica', 'Angler\'s Tunica', 'Fisherman\'s Smock', 'Chocobo Jack Coat', 'Rider\'s Jack Coat', 'Alchemist\'s Apron', 'Boneworker\'s Apron', 'Weaver\'s Apron', 'Blacksmith\'s Apron', 'Carpenter\'s Apron', 'Culinarian\'s Apron', 'Goldsmith\'s Apron', 'Tanner\'s Apron'},
+    ['Hands'] = T{'Fsh. Gloves', 'Angler\'s Gloves', 'Tanner\'s Gloves', 'Smithy\'s Mitts', 'Carpenter\'s Gloves', 'Chocobo Gloves', 'Rider\'s Gloves'},
+    ['Ring1'] = T{},
+    ['Ring2'] = T{},
+    ['Back'] = T{},
+    ['Waist'] = T{'Alchemist\'s Belt', 'Boneworker\'s Belt', 'Weaver\'s Belt', 'Culinarian\'s Belt', 'Goldsmith\'s Belt', 'Tanner\'s Belt', 'Blacksmith\'s Belt', 'Carpenter\'s Belt'},
+    ['Legs'] = T{'Fisherman\'s Hose', 'Angler\'s Hose', 'Chocobo Hose', 'Rider\'s Hose'},
+    ['Feet'] = T{'Fisherman\'s Boots', 'Angler\'s Boots', 'Waders', 'Chocobo Boots', 'Rider\'s Boots'}
+}
+
 local Towns = T{'Tavnazian Safehold','Al Zahbi','Aht Urhgan Whitegate','Nashmau','Southern San d\'Oria [S]','Bastok Markets [S]','Windurst Waters [S]','Southern San d\'Oria','Northern San d\'Oria','Port San d\'Oria','Chateau d\'Oraguille','Bastok Mines','Bastok Markets','Port Bastok','Metalworks','Windurst Waters','Windurst Walls','Port Windurst','Windurst Woods','Heavens Tower','Ru\'Lude Gardens','Upper Jeuno','Lower Jeuno','Port Jeuno','Rabao','Selbina','Mhaura','Kazham','Norg','Mog Garden'};
 local SandyTowns = T{'Southern San d\'Oria','Northern San d\'Oria','Port San d\'Oria','Chateau d\'Oraguille','Southern San d\'Oria [S]'};
 local WindyTowns = T{'Windurst Waters','Windurst Walls','Port Windurst','Windurst Woods','Heavens Tower','Windurst Waters [S]'};
 local BastokTowns = T{'Bastok Mines','Bastok Markets','Port Bastok','Metalworks','Bastok Markets [S]'};
 
 gcinclude.settings = {	
-	WScheck = true; --set to false if you dont want to use the WSdistance safety check
-	WSdistance = 4.7; --default max distance (yalms) to allow non-ranged WS to go off at if the above WScheck is true  was
+	WScheck = true;     --set to false if you dont want to use the WSdistance safety check
+	WSdistance = 4.7;   --default max distance (yalms) to allow non-ranged WS to go off at if the above WScheck is true  
 };
 
 gcdisplay = gFunc.LoadFile('common\\gcdisplay.lua');
@@ -129,11 +156,12 @@ end
 function gcinclude.VarTable()
 	local IdleVariantTable = {
     [1] = 'Default',
-    [2] = 'L20', 
-    [3] = 'L30',
-    [4] = 'L40', 
-    [5] = 'L50',
-    [6] = 'L60',   
+    [2] = 'ALT',
+    [3] = 'L20', 
+    [4] = 'L30',
+    [5] = 'L40', 
+    [6] = 'L50',
+    [7] = 'L60',   
 };
 local TpVariantTable = {
     [1] = 'Default',
@@ -146,16 +174,23 @@ local TpVariantTable = {
 };
 local WsVariantTable = {
     [1] = 'Default',
-    [2] = 'L20', 
-    [3] = 'L30',
-    [4] = 'L40', 
-    [5] = 'L50',
-    [6] = 'L60',   
+    [2] = 'HighAcc',
+    [3] = 'L20', 
+    [4] = 'L30',
+    [5] = 'L40', 
+    [6] = 'L50',
+    [7] = 'L60',   
+};
+local NukeVariantTable = {
+    [1] = 'Default',
+    [2] = 'L50', 
+    [3] = 'L60',      
 };
 local Settings = {   
     IdleVariant = 1, 
     TpVariant = 1,
     WsVariant = 1,
+    NukeVariant = 1,
 };
 end
 
@@ -179,16 +214,28 @@ function gcinclude.DoItem()
     end
 end
 
+function gcinclude.CheckCommonDebuffs()
+	local slept = gData.GetBuffCount(2);    -- Sleep
+    local weakened = gData.GetBuffCount(1); -- Weakened
+    local doomed = gData.GetBuffCount(15);  -- Doom        
+	
+	if (slept >= 1 and sleep_debuff) then gFunc.Equip('Neck', 'Opo-opo Necklace') end
+    if (weakened >= 1 and weak_debuff) then gFunc.Equip('Head', 'Reraise Hairpin') end
+    if (doomed >= 1 and doomed_debuff) then AshitaCore:GetChatManager():QueueCommand(1, '/item "Holy Water" <me>') end     
+end
+
 function gcinclude.BuildLockableSet(equipment)
     local lockableSet = {}
 
     for slot, item in pairs(equipment) do
-        if (LockableEquipment[slot]:contains(item.Name)) then
+        if (LockableEquipment[slot]:contains(item.Name)) or (LockableCraftingEquipment[slot]:contains(item.Name)) then
             lockableSet[slot] = item
-            if (item.Name == 'Custom Gilet +1' or item.Name == 'Custom Top +1' or item.Name == 'Magna Gilet +1' or item.Name == 'Magna Top +1' or item.Name == 'Savage Top +1' or item.Name == 'Elder Gilet +1' or item.Name == 'Wonder Maillot +1' or item.Name == 'Wonder Top +1') then
+            if (item.Name == 'Custom Gilet +1' or item.Name == 'Custom Top +1' or item.Name == 'Magna Gilet +1' or item.Name == 'Magna Top +1' or item.Name == 'Savage Top +1' or item.Name == 'Elder Gilet +1' or item.Name == 'Wonder Maillot +1' or item.Name == 'Wonder Top +1' or item.Name == 'Elvaan Gilet +1' or item.Name == 'Elvaan Top +1' or item.Name == 'Galka Gilet +1' or item.Name == 'Hume Gilet +1' or item.Name == 'Hume Top +1' or item.Name == 'Mithra Top +1' or item.Name == 'Tarutaru Maillot +1' or item.Name == 'Tarutaru Top +1') then
                 lockableSet['Hands'] = 'Displaced'
             elseif (item.Name == 'Mandra. Suit') then
                 lockableSet['Legs'] = 'Displaced'
+            elseif (item.Name == 'Elvaan Trunks +1' or item.Name == 'Elvaan Shorts +1' or item.Name == 'Galka Trunks +1' or item.Name == 'Hume Trunks +1' or item.Name == 'Hume Shorts +1' or item.Name == 'Mithra Shorts +1' or item.Name == 'Tarutaru Trunks +1' or item.Name == 'Tarutaru Shorts +1') then
+                lockableSet['Feet'] = 'Displaced'
             elseif (slot == 'Main') then
                 lockableSet['Sub'] = 'Displaced'
             end

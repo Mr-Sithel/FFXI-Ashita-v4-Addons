@@ -8,14 +8,16 @@ local gcdisplay = {
 
 local fontSettings = T{
 	visible = true,
-	font_family = 'Segoe UI',
-	font_height = 12,
+	font_family = 'Ink Free Regular',
+	font_height = 11,
 	color = 0xFFFFFFFF,
-	position_x = 1100,
+	position_x = 800,
 	position_y = 0,
 	background = T{
-		visible = true,
-		color = 0xFF000000,
+		visible = false,
+		color = 0x80000000,
+		--color = 0xFF000000,
+		--opacity = 0.5,
 	}
 };
 

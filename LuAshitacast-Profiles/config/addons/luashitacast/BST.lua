@@ -3,10 +3,21 @@ local gaudy_harness = false
 local gcdisplay = gFunc.LoadFile('common\\gcdisplay.lua');
 gcinclude = gFunc.LoadFile('common\\gcinclude.lua');
 gcinclude.VarTable();
--- Which ever you have, change Town body to true in the gcinclude.lua
+
+-- Whatever Town Movement speed body(s) you have or don't, change lines 4-7 to True or False in the gcinclude.lua
+-- /wsdistance or /wsdistance ##  (to change ws cancel range)
+-- Sets below were made in a may to do level sync content
+-- /bst idle to change Idle sets from Default/ALT/L20/L30/L40/L50/L60
+-- /bst tp to change Tp sets from Default/HighAcc/L20/L30/L40/L50/L60
+-- /bst ws to change Ws sets from Default/HighAcc/L20/L30/L40/L50/L60
+-- /bst pet to change to appropriate level and pet and call pet (if any pet is selected then use any jug in that slot and call pet)
+-- /bst food to select what level food to use when using reward
+-- F9 Toggles locking a MP set
+-- F10 Toggles locking a MDT set
+-- F12 Toggles locking a PDT set
 
 local sets = {
-    Idle_Default = {  
+    Idle_Default = {
         Head = 'Voyager Sallet',
         Neck = 'Spike Necklace',
         Ear1 = 'Spike Earring',
@@ -19,6 +30,8 @@ local sets = {
         Waist = 'Swift Belt',
         Legs = 'Ryl.Kgt. Breeches',
         Feet = 'Alumine Sollerets',
+    },
+    Idle_ALT = {
     },
     --Idle Sets for Level Sync 20, 30, 40, 50, 60 to change type: /bst idle
     Idle_L20 = {

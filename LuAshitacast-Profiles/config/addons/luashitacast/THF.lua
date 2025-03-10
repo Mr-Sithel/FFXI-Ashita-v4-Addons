@@ -7,7 +7,7 @@ gcinclude.VarTable();
 -- /wsdistance or /wsdistance ##  (to change ws cancel range)
 -- /thf idle to change Idle sets from Default/ALT
 -- /thf tp to change Tp sets from Default/HighAcc
--- /thf ws to change Ws sets from Default/HighAcc
+-- /thf ws to change Ws sets from Default/HighAcc (Evisceration, Shark Bite, Mercy Stroke have their own set)
 -- F9 Toggles locking a TH set (True by default)
 -- F10 Toggles locking a MDT set
 -- F12 Toggles locking a EVA set

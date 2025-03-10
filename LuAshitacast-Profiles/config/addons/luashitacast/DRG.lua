@@ -10,6 +10,7 @@ gcinclude.VarTable();
 -- F9 Toggles locking a MP set
 -- F10 Toggles locking a MDT set
 -- F12 Toggles locking a PDT set
+-- Check below for /lockstyleset (4 is being used by default)
 
 local ethereal_earring = true
 local ethereal_earring_slot = 'Ear2'
@@ -241,19 +242,19 @@ profile.SetLockStyle = function ()
     local player = gData.GetPlayer();
     if (player.SubJob == 'NIN') then
         AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1');
-        --AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');
+        --AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');  -- Stylist Plugin Needed
         AshitaCore:GetChatManager():ExecuteScriptString("/wait 3;/lockstyleset 4", '',true)
     elseif (player.SubJob == 'SAM') then
         AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1');
-        --AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');
+        --AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');  -- Stylist Plugin Needed
         AshitaCore:GetChatManager():ExecuteScriptString("/wait 3;/lockstyleset 4", '',true)
     elseif (player.SubJob == 'WHM') then
         AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1');
-        --AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');
+        --AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');  -- Stylist Plugin Needed
         AshitaCore:GetChatManager():ExecuteScriptString("/wait 3;/lockstyleset 4", '',true)
     elseif (player.SubJob == 'RDM') then
         AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1');
-        --AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');
+        --AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');  -- Stylist Plugin Needed
         AshitaCore:GetChatManager():ExecuteScriptString("/wait 3;/lockstyleset 4", '',true)
     end
 end

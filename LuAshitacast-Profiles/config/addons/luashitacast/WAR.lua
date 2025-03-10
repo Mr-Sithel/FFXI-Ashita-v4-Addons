@@ -7,7 +7,7 @@ gcinclude.VarTable();
 -- /wsdistance or /wsdistance ##  (to change ws cancel range)
 -- /war idle to change Idle sets from Default/ALT/L60
 -- /war tp to change Tp sets from Default/HighAcc/L60
--- /war ws to change Ws sets from Default/HighAcc/L60
+-- /war ws to change Ws sets from Default/HighAcc/L60 (Raging Rush, Steel Cyclone, Rampage have their own set)
 -- F9 Toggles locking a MP set
 -- F10 Toggles locking a MDT set
 -- F12 Toggles locking a PDT set

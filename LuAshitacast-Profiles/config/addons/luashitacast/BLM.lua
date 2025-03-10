@@ -3,6 +3,14 @@ gcinclude = gFunc.LoadFile('common\\gcinclude.lua');
 local gcdisplay = gFunc.LoadFile('common\\gcdisplay.lua');
 gcinclude.VarTable();
 
+-- Whatever Town Movement speed body(s) you have or don't, change lines 4-7 to True or False in the gcinclude.lua
+-- /wsdistance or /wsdistance ##  (to change ws cancel range)
+-- F10 Toggles locking a MDT set
+-- F12 Toggles locking a PDT set
+-- Check below for /lockstyleset (4 is being used by default)
+-- Uses Obi's for weather and day
+-- Uses Elemental Staff's for elemental spells
+
 local sorcerers_tonban = 'Src. Tonban +1'
 
 local sets = {
@@ -204,16 +212,16 @@ profile.SetLockStyle = function ()
     local player = gData.GetPlayer();
     if (player.SubJob == 'WHM') then
         AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1');
-        AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');
-        AshitaCore:GetChatManager():ExecuteScriptString("/wait 3;/lockstyleset 1", '',true)
+        AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');  -- Stylist Plugin Needed
+        AshitaCore:GetChatManager():ExecuteScriptString("/wait 3;/lockstyleset 4", '',true)
     elseif (player.SubJob == 'RDM') then
         AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1');
-        AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');
-        AshitaCore:GetChatManager():ExecuteScriptString("/wait 3;/lockstyleset 1", '',true)
+        AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');  -- Stylist Plugin Needed
+        AshitaCore:GetChatManager():ExecuteScriptString("/wait 3;/lockstyleset 4", '',true)
     elseif (player.SubJob == 'NIN') then
         AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1');
-        AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');
-        AshitaCore:GetChatManager():ExecuteScriptString("/wait 3;/lockstyleset 1", '',true)
+        AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');  -- Stylist Plugin Needed
+        AshitaCore:GetChatManager():ExecuteScriptString("/wait 3;/lockstyleset 4", '',true)
     end
 end
 

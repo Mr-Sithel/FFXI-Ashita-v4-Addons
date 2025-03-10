@@ -12,6 +12,7 @@ gcinclude.VarTable();
 -- F10 Toggles locking a MDT set
 -- F12 Toggles locking a PDT set
 -- /lss changes lockstyleset to 4
+-- Check below for /lockstyleset (4 is being used by default)
 
 local sets = {
     Idle_Default = {
@@ -283,15 +284,15 @@ profile.SetLockStyle = function ()
     local player = gData.GetPlayer();
     if (player.SubJob == 'NIN') then
         AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1');
-        --AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');
+        --AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');  -- Stylist Plugin Needed
         AshitaCore:GetChatManager():ExecuteScriptString("/wait 3;/lockstyleset 4", '',true)
     elseif (player.SubJob == 'SAM') then
         AshitaCore:GetChatManager():QueueCommand(1, '/macro set 2');
-        --AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');
+        --AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');  -- Stylist Plugin Needed
         AshitaCore:GetChatManager():ExecuteScriptString("/wait 3;/lockstyleset 4", '',true)
     elseif (player.SubJob == 'THF') then
         AshitaCore:GetChatManager():QueueCommand(1, '/macro set 3');
-        --AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');
+        --AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');  -- Stylist Plugin Needed
         AshitaCore:GetChatManager():ExecuteScriptString("/wait 3;/lockstyleset 4", '',true)
     end
 end

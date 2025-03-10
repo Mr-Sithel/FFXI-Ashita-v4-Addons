@@ -3,6 +3,13 @@ gcinclude = gFunc.LoadFile('common\\gcinclude.lua');
 local gcdisplay = gFunc.LoadFile('common\\gcdisplay.lua');
 gcinclude.VarTable();
 
+-- Whatever Town Movement speed body(s) you have or don't, change lines 4-7 to True or False in the gcinclude.lua
+-- /wsdistance or /wsdistance ##  (to change ws cancel range)
+-- /pld tp to change Tp sets from Default/HighAcc
+-- F9 Toggles locking a MP set
+-- F10 Toggles locking a MDT set
+-- F12 Toggles locking a PDT set
+
 local parade_gorget = true
 local hercules_ring = true
 local hercules_ring_slot = 'Ring2' 

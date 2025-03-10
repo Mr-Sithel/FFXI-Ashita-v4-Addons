@@ -3,6 +3,16 @@ gcinclude = gFunc.LoadFile('common\\gcinclude.lua');
 local gcdisplay = gFunc.LoadFile('common\\gcdisplay.lua');
 gcinclude.VarTable();
 
+-- Whatever Town Movement speed body(s) you have or don't, change lines 4-7 to True or False in the gcinclude.lua
+-- /wsdistance or /wsdistance ##  (to change ws cancel range)
+-- /war idle to change Idle sets from Default/ALT/L60
+-- /war tp to change Tp sets from Default/HighAcc/L60
+-- /war ws to change Ws sets from Default/HighAcc/L60
+-- F9 Toggles locking a MP set
+-- F10 Toggles locking a MDT set
+-- F12 Toggles locking a PDT set
+-- /lss changes lockstyleset to 4
+
 local sets = {
     Idle_Default = {
         Ammo = 'Bomb Core',

@@ -2,7 +2,14 @@ local profile = {SubJob = AshitaCore:GetMemoryManager():GetPlayer():GetSubJob()}
 local gcdisplay = gFunc.LoadFile('common\\gcdisplay.lua');
 gcinclude = gFunc.LoadFile('common\\gcinclude.lua');
 gcinclude.VarTable();
--- Which ever you have, change Town body to true in the gcinclude.lua
+
+-- Whatever Town Movement speed body(s) you have or don't, change lines 4-7 to True or False in the gcinclude.lua
+-- /wsdistance or /wsdistance ##  (to change ws cancel range)
+-- /drg idle to change Idle sets from Default/ALT
+-- /drg tp to change Tp sets from Default/HighAcc
+-- F9 Toggles locking a MP set
+-- F10 Toggles locking a MDT set
+-- F12 Toggles locking a PDT set
 
 local ethereal_earring = true
 local ethereal_earring_slot = 'Ear2'

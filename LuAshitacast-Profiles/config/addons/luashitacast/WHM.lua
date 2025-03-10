@@ -3,6 +3,13 @@ gcinclude = gFunc.LoadFile('common\\gcinclude.lua');
 local gcdisplay = gFunc.LoadFile('common\\gcdisplay.lua');
 gcinclude.VarTable();
 
+-- Whatever Town Movement speed body(s) you have or don't, change lines 4-7 to True or False in the gcinclude.lua
+-- /wsdistance or /wsdistance ##  (to change ws cancel range)
+-- /whm tp to change Tp sets from Default to HighAcc
+-- F9 Toggles Reraise check spamming a chat echo to recast reraise when it drops off
+-- F10 Toggles locking a MDT set
+-- F12 Toggles locking a PDT set
+
 local sets = {
     Idle = {
         Main = 'Terra\'s Staff',
@@ -208,7 +215,7 @@ profile.OnLoad = function()
     gSettings.AllowAddSet = true;
     gcdisplay.CreateToggle('(F10) MDT', false);
     gcdisplay.CreateToggle('(F12) PDT', false);
-    gcdisplay.CreateToggle('(F9) Refresh', false);    
+    gcdisplay.CreateToggle('(F9) Reraise Check', false);
     gcdisplay.CreateCycle('/whm tp ', { [1] = 'Default', [2] = 'HighAcc' }); --/whm tp
     AshitaCore:GetChatManager():QueueCommand(-1, '/bind F9 /whm reraisechecktoggle');
     AshitaCore:GetChatManager():QueueCommand(-1, '/bind F10 /whm mdttoggle');

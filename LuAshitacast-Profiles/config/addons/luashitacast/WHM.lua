@@ -9,6 +9,7 @@ gcinclude.VarTable();
 -- F9 Toggles Reraise check spamming a chat echo to recast reraise when it drops off
 -- F10 Toggles locking a MDT set
 -- F12 Toggles locking a PDT set
+-- Check below for /lockstyle (On is being used by default)
 
 local sets = {
     Idle = {

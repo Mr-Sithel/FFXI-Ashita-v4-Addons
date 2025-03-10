@@ -2,7 +2,15 @@ local profile = {SubJob = AshitaCore:GetMemoryManager():GetPlayer():GetSubJob()}
 local gcdisplay = gFunc.LoadFile('common\\gcdisplay.lua');
 gcinclude = gFunc.LoadFile('common\\gcinclude.lua');
 gcinclude.VarTable();
--- Which ever you have, change Town body to true in the gcinclude.lua
+
+-- Whatever Town Movement speed body(s) you have or don't, change lines 4-7 to True or False in the gcinclude.lua
+-- /wsdistance or /wsdistance ##  (to change ws cancel range)
+-- /thf idle to change Idle sets from Default/ALT
+-- /thf tp to change Tp sets from Default/HighAcc
+-- /thf ws to change Ws sets from Default/HighAcc
+-- F9 Toggles locking a TH set (True by default)
+-- F10 Toggles locking a MDT set
+-- F12 Toggles locking a EVA set
 
 local ta_rogue_armlets = true
 

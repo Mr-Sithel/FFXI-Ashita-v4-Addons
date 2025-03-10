@@ -169,10 +169,6 @@ local sets = {
     },
     Drain_Aspir = {
     },
-    Refresh = {
-        Head = 'ignore',
-        Body = 'Royal Cloak',
-    },
     MDT = {
         Main = 'Terra\'s Staff',
     },
@@ -214,7 +210,7 @@ profile.OnLoad = function()
     gcdisplay.CreateToggle('(F12) PDT', false);
     gcdisplay.CreateToggle('(F9) Refresh', false);    
     gcdisplay.CreateCycle('/whm tp ', { [1] = 'Default', [2] = 'HighAcc' }); --/whm tp
-    AshitaCore:GetChatManager():QueueCommand(-1, '/bind F9 /whm refreshtoggle');
+    AshitaCore:GetChatManager():QueueCommand(-1, '/bind F9 /whm reraisechecktoggle');
     AshitaCore:GetChatManager():QueueCommand(-1, '/bind F10 /whm mdttoggle');
     AshitaCore:GetChatManager():QueueCommand(-1, '/bind F12 /whm pdttoggle');
     AshitaCore:GetChatManager():QueueCommand(-1, '/alias /whm /lac fwd'); 
@@ -246,13 +242,14 @@ profile.HandleCommand = function(args)
     if (args[1] == 'pdttoggle') then
         gcdisplay.AdvanceToggle('(F12) PDT');
     end
-    if (args[1] == 'refreshtoggle') then
-        gcdisplay.AdvanceToggle('(F9) Refresh');
+    if (args[1] == 'reraisechecktoggle') then
+        gcdisplay.AdvanceToggle('(F9) Reraise Check');
     end
 end
 
 profile.HandleDefault = function()
     local player = gData.GetPlayer();
+    local reraise = gData.GetBuffCount(113);    -- Reraise
      
     if (player.Status == 'Idle') then
         gFunc.EquipSet(sets.Idle);
@@ -265,7 +262,7 @@ profile.HandleDefault = function()
 
     if (gcdisplay.GetToggle('(F10) MDT') == true) then gFunc.EquipSet(sets.MDT) end
     if (gcdisplay.GetToggle('(F12) PDT') == true) then gFunc.EquipSet(sets.PDT) end
-    if (gcdisplay.GetToggle('(F9) Refresh') == true) then gFunc.EquipSet(sets.Refresh) end
+    if (gcdisplay.GetToggle('(F9) Reraise Check') == true and reraise < 1 and player.MainJobSync >= 25) then AshitaCore:GetChatManager():QueueCommand(1, '/echo *** RECAST RERAISE ***') end
         
     gcinclude.TownGear();
     gcinclude.CheckCommonDebuffs();
@@ -282,19 +279,19 @@ profile.SetLockStyle = function ()
     if (player.SubJob == 'NIN') then
         AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1');
         AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');  -- Stylist Plugin Needed
-        AshitaCore:GetChatManager():ExecuteScriptString("/wait 3;/lockstyleset 4", '',true)
+        AshitaCore:GetChatManager():ExecuteScriptString("/wait 3;/lockstyle on", '',true)
     elseif (player.SubJob == 'BLM') then
         AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1');
         AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');  -- Stylist Plugin Needed
-        AshitaCore:GetChatManager():ExecuteScriptString("/wait 3;/lockstyleset 4", '',true)
+        AshitaCore:GetChatManager():ExecuteScriptString("/wait 3;/lockstyle on", '',true)
     elseif (player.SubJob == 'RDM') then
         AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1');
         AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');  -- Stylist Plugin Needed
-        AshitaCore:GetChatManager():ExecuteScriptString("/wait 3;/lockstyleset 4", '',true)
+        AshitaCore:GetChatManager():ExecuteScriptString("/wait 3;/lockstyle on", '',true)
     elseif (player.SubJob == 'SMN') then
         AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1');
         AshitaCore:GetChatManager():QueueCommand(1, '/sl others on');  -- Stylist Plugin Needed
-        AshitaCore:GetChatManager():ExecuteScriptString("/wait 3;/lockstyleset 4", '',true)
+        AshitaCore:GetChatManager():ExecuteScriptString("/wait 3;/lockstyle on", '',true)
     end    
 end
 
@@ -309,7 +306,6 @@ profile.HandlePrecast = function()
         
     if (gcdisplay.GetToggle('(F10) MDT') == true) then gFunc.EquipSet(sets.MDT) end
     if (gcdisplay.GetToggle('(F12) PDT') == true) then gFunc.EquipSet(sets.PDT) end
-    if (gcdisplay.GetToggle('(F9) Refresh') == true) then gFunc.EquipSet(sets.Refresh) end
 end
 
 profile.HandleMidcast = function()
@@ -357,7 +353,6 @@ profile.HandleMidcast = function()
 
     if (gcdisplay.GetToggle('(F10) MDT') == true) then gFunc.EquipSet(sets.MDT) end
     if (gcdisplay.GetToggle('(F12) PDT') == true) then gFunc.EquipSet(sets.PDT) end
-    if (gcdisplay.GetToggle('(F9) Refresh') == true) then gFunc.EquipSet(sets.Refresh) end
 end
 
 profile.HandleItem = function()
@@ -382,7 +377,6 @@ profile.HandleWeaponskill = function()
         
     if (gcdisplay.GetToggle('(F10) MDT') == true) then gFunc.EquipSet(sets.MDT) end
     if (gcdisplay.GetToggle('(F12) PDT') == true) then gFunc.EquipSet(sets.PDT) end
-    if (gcdisplay.GetToggle('(F9) Refresh') == true) then gFunc.EquipSet(sets.Refresh) end
 end
 
 profile.HandleAbility = function()

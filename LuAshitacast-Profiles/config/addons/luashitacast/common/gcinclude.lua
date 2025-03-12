@@ -228,14 +228,21 @@ function gcinclude.BuildLockableSet(equipment)
     local lockableSet = {}
 
     for slot, item in pairs(equipment) do
-        if (LockableEquipment[slot]:contains(item.Name)) or (LockableCraftingEquipment[slot]:contains(item.Name)) then
+        if (LockableEquipment[slot]:contains(item.Name)) then
             lockableSet[slot] = item
-            if (item.Name == 'Custom Gilet +1' or item.Name == 'Custom Top +1' or item.Name == 'Magna Gilet +1' or item.Name == 'Magna Top +1' or item.Name == 'Savage Top +1' or item.Name == 'Elder Gilet +1' or item.Name == 'Wonder Maillot +1' or item.Name == 'Wonder Top +1' or item.Name == 'Elvaan Gilet +1' or item.Name == 'Elvaan Top +1' or item.Name == 'Galka Gilet +1' or item.Name == 'Hume Gilet +1' or item.Name == 'Hume Top +1' or item.Name == 'Mithra Top +1' or item.Name == 'Tarutaru Maillot +1' or item.Name == 'Tarutaru Top +1') then
+            if (
+                item.Name == 'Custom Gilet +1'
+                or item.Name == 'Custom Top +1'
+                or item.Name == 'Magna Gilet +1'
+                or item.Name == 'Magna Top +1'
+                or item.Name == 'Savage Top +1'
+                or item.Name == 'Elder Gilet +1'
+                or item.Name == 'Wonder Maillot +1'
+                or item.Name == 'Wonder Top +1'
+            ) then
                 lockableSet['Hands'] = 'Displaced'
             elseif (item.Name == 'Mandra. Suit') then
                 lockableSet['Legs'] = 'Displaced'
-            elseif (item.Name == 'Elvaan Trunks +1' or item.Name == 'Elvaan Shorts +1' or item.Name == 'Galka Trunks +1' or item.Name == 'Hume Trunks +1' or item.Name == 'Hume Shorts +1' or item.Name == 'Mithra Shorts +1' or item.Name == 'Tarutaru Trunks +1' or item.Name == 'Tarutaru Shorts +1') then
-                lockableSet['Feet'] = 'Displaced'
             elseif (slot == 'Main') then
                 lockableSet['Sub'] = 'Displaced'
             end

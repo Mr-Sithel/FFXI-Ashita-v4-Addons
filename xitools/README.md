@@ -18,9 +18,9 @@ a suite of UI replacement components.
 ![us](./img/us.png)
 ![several](./img/several.png)
 ![week](./img/week.png)
-![dyn](./img/dynamis.png)
-![smn](./img/summon.png)
-![reg](./img/regions.png)
+![dynamis](./img/dynamis.png)
+![summon](./img/summon.png)
+![regions](./img/regions.png)
 
 ## usage
 `/xitools` (or `/xit`) will bring up the config menu

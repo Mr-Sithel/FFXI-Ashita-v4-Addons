@@ -52,21 +52,75 @@ local Alliances = { }
 ---@field windowPos        integer[]
 ---@field statusIds        integer[]
 
+local function setAlpha(bitmap)
+    -- the in-game bitmap data excludes the 14-byte BMP file header,
+    -- and instead begins at the 40-byte DIB header. add 1 to account
+    -- for lua's 1-based indexes
+    local bmpStart = 40 + 1
+    local bytes = bitmap:totable()
+
+    -- each icon is 32x32 pixels and we're going to iterate over the
+    -- bytes one pixel at a time (ie, 4 bytes). start at 0 since we're
+    -- doing offset maths
+    for i = 0, (32 * 32) - 1 do
+        local pixelStart = i * 4
+        local alpha = bytes[bmpStart + pixelStart + 3]
+
+        -- any fully-transparent pixel should be banished to the colorkey realm
+        if alpha < 0x01 then
+            bytes[bmpStart + pixelStart + 0] = 0
+            bytes[bmpStart + pixelStart + 1] = 0
+            bytes[bmpStart + pixelStart + 2] = 0
+        end
+    end
+
+    -- turn our bytes back into chars, and our chars into a string
+    return bytes:map(string.char):join()
+end
+
 ---@param statusId number
 ---@param icon userdata
 local function CreateTexture(statusId, icon)
     if icon == nil then
         print('xitools error: no icon for status ' .. tostring(statusId))
-        return nil
+        return 'missing'
     end
 
     -- Courtesy of Thorny's partybuffs
     local dx_texture_ptr = ffi.new('IDirect3DTexture8*[1]')
-    if ffi.C.D3DXCreateTextureFromFileInMemoryEx(d3d8_device, icon.Bitmap, icon.ImageSize, 0xFFFFFFFF, 0xFFFFFFFF, 1, 0, ffi.C.D3DFMT_A8R8G8B8, ffi.C.D3DPOOL_MANAGED, ffi.C.D3DX_DEFAULT, ffi.C.D3DX_DEFAULT, 0xFF000000, nil, nil, dx_texture_ptr) == ffi.C.S_OK then
+    if ffi.C.D3DXCreateTextureFromFileInMemoryEx(d3d8_device, setAlpha(icon.Bitmap), icon.ImageSize, 0xFFFFFFFF, 0xFFFFFFFF, 1, 0, ffi.C.D3DFMT_A8R8G8B8, ffi.C.D3DPOOL_MANAGED, ffi.C.D3DX_DEFAULT, ffi.C.D3DX_DEFAULT, 0xFF000000, nil, nil, dx_texture_ptr) == ffi.C.S_OK then
         return d3d8.gc_safe_release(ffi.cast('IDirect3DTexture8*', dx_texture_ptr[0]))
     else
-        return nil
+        return 'missing'
     end
+end
+
+local ptrStatusIcons = AshitaCore:GetPointerManager():Get('party.statusicons')
+local function GetBuffs2(party, serverId)
+    local ptrPartyBuffs = ashita.memory.read_uint32(ptrStatusIcons)
+    for memberIndex = 0, 4 do
+        local memberPtr = ptrPartyBuffs + (0x30 * memberIndex)
+        local playerId = ashita.memory.read_uint32(memberPtr)
+
+        if playerId == serverId then
+            local buffs = { }
+
+            for buffIndex = 0, 31 do
+                local fMod = math.fmod(buffIndex, 4) * 2
+                local lowBits = ashita.memory.read_uint8(memberPtr + 16 + buffIndex)
+                local highBits = ashita.memory.read_uint8(memberPtr + 8 + (math.floor(buffIndex / 4)))
+                highBits = bit.lshift(bit.band(bit.rshift(highBits, fMod), 0x03), 8)
+                local buff = highBits + lowBits
+
+                if buff ~= 255 then
+                    table.insert(buffs, buff)
+                end
+            end
+            return buffs
+        end
+    end
+
+    return { }
 end
 
 local function GetBuffs(party, serverId)
@@ -86,14 +140,14 @@ local function GetBuffs(party, serverId)
                 --]]
                 local high_bits
                 if b < 16 then
-                    high_bits = bit.lshift(bit.band(bit.rshift(icons_hi, 2* b), 3), 8)
+                    high_bits = bit.lshift(bit.band(bit.rshift(icons_hi, 2 * b), 3), 8)
                 else
                     local buffer = math.floor(icons_hi / 0xffffffff)
                     high_bits = bit.lshift(bit.band(bit.rshift(buffer, 2 * (b - 16)), 3), 8)
                 end
 
-                local buff_id = icons_lo[b+1] + high_bits
-                if (buff_id ~= 255) then
+                local buff_id = icons_lo[b + 1] + high_bits
+                if buff_id ~= 255 then
                     table.insert(effects, buff_id)
                 end
              end
@@ -108,7 +162,7 @@ end
 local function FilterBuffs(buffList)
     local buffs = {}
 
-    for _, buff in ipairs(buffList) do
+    for i, buff in ipairs(buffList) do
         if buff ~= nil and buff > 0 then
             table.insert(buffs, buff)
         end
@@ -165,7 +219,7 @@ end
 ---@return PartyMember
 local function GetMember(i, window, target, party, stal)
     local serverId = party:GetMemberServerId(i)
-    local buffs = FilterBuffs(GetBuffs(party, serverId))
+    local buffs = FilterBuffs(GetBuffs2(party, serverId))
 
     return {
         entity = GetEntity(party:GetMemberTargetIndex(i)),
@@ -340,7 +394,7 @@ local function DrawBuffs(player)
         end
 
         local buffIcon = Textures[buffId]
-        if buffIcon then
+        if buffIcon ~= 'missing' then
             imgui.SameLine()
             local img = tonumber(ffi.cast("uint32_t", buffIcon))
             imgui.Image(img, ui.Scale({ 16, 16 }, Scale))

@@ -7,14 +7,20 @@ a suite of UI replacement components.
 - `inv` shows your inventories with some interaction enabled
 - `tracker` displays configurable timers for spells and abilities
 - `treas` displays the current loot pool
-- `week` tracks your ENMs because remembering things is hard
+- `week` tracks your ENMs because remembering things is hard (Added Eco-War, Spice Gals, and Secrets of Ovens Lost)
 - `crafty` is a crafting skill tracker and recipe list
 - `fishe` is a fishing skill tracker and hook monitor
 - `log` is a dev tool that dumps packets to a log file, probably not useful
+- `smn` tracks Summon Key Items for Prime Avatars
+- `reg` Outpost Regions for knowing what region goes where
+- `dyn` tracks Dynamis Key Items for Clears
 
 ![us](./img/us.png)
 ![several](./img/several.png)
 ![week](./img/week.png)
+![dyn](./img/dynamis.png)
+![smn](./img/summon.png)
+![reg](./img/regions.png)
 
 ## usage
 `/xitools` (or `/xit`) will bring up the config menu

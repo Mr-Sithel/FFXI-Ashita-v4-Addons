@@ -4,7 +4,13 @@ Forked Addons and Configs
 
 ## Description
 
-#### * XIVParty  
+#### * xitools
+Forked from [mousseng](https://github.com/mousseng/xitools/tree/master/addons/xitools) 
+- Added Tracking Summon Key Items for Prime Avatars
+- Added Tracking Dynamis Key Items for Clears
+- Added Outpost Regions for knowing what region goes where
+- Added more weekly Key Item tracking (Eco-War, Spice Gals, Secrets of Ovens Lost)
+#### * XIVParty
 Forked from [tirem](https://github.com/tirem/XivParty) (Added Bigger Icons and added a FFXI2 Dark version)
 #### * LuAshitacast Profiles
 Used code from both [Rag/yzyii](https://github.com/yzyii/luashitacast) and [GetAwayCoxn](https://github.com/GetAwayCoxn/Luashitacast-Profiles/tree/main)

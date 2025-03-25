@@ -63,6 +63,9 @@ local sets = {
         Legs = 'Baron\'s Slops',
         Feet = 'Rostrum Pumps',
     },
+    Lock_Weapon = {
+        Main = '%Locked_Weapon',
+    },
     Precast = {
         Main = 'Rucke\'s Rung',
         Ammo = 'Fortune Egg',
@@ -217,10 +220,12 @@ profile.OnLoad = function()
     gcdisplay.CreateToggle('(F10) MDT', false);
     gcdisplay.CreateToggle('(F12) PDT', false);
     gcdisplay.CreateToggle('(F9) Reraise Check', false);
+    gcdisplay.CreateToggle('(^F12) Lock Weapon', false);
     gcdisplay.CreateCycle('/whm tp ', { [1] = 'Default', [2] = 'HighAcc' }); --/whm tp
     AshitaCore:GetChatManager():QueueCommand(-1, '/bind F9 /whm reraisechecktoggle');
     AshitaCore:GetChatManager():QueueCommand(-1, '/bind F10 /whm mdttoggle');
     AshitaCore:GetChatManager():QueueCommand(-1, '/bind F12 /whm pdttoggle');
+    AshitaCore:GetChatManager():QueueCommand(-1, '/bind ^F12 /whm lockweapontoggle');
     AshitaCore:GetChatManager():QueueCommand(-1, '/alias /whm /lac fwd'); 
     AshitaCore:GetChatManager():QueueCommand(1, '/macro book 2');
     AshitaCore:GetChatManager():QueueCommand(1, '/macro set 1');
@@ -233,6 +238,7 @@ profile.OnUnload = function()
     AshitaCore:GetChatManager():QueueCommand(-1, '/unbind F9');
     AshitaCore:GetChatManager():QueueCommand(-1, '/unbind F10');
     AshitaCore:GetChatManager():QueueCommand(-1, '/unbind F12');
+    AshitaCore:GetChatManager():QueueCommand(-1, '/unbind ^F12');
     AshitaCore:GetChatManager():QueueCommand(-1, '/alias delete /whm');
     gcdisplay.Destroy();
     gcinclude.ClearAlias();
@@ -249,6 +255,9 @@ profile.HandleCommand = function(args)
     end
     if (args[1] == 'pdttoggle') then
         gcdisplay.AdvanceToggle('(F12) PDT');
+    end
+    if (args[1] == 'lockweapontoggle') then
+        gcdisplay.AdvanceToggle('(^F12) Lock Weapon');
     end
     if (args[1] == 'reraisechecktoggle') then
         gcdisplay.AdvanceToggle('(F9) Reraise Check');
@@ -270,6 +279,7 @@ profile.HandleDefault = function()
 
     if (gcdisplay.GetToggle('(F10) MDT') == true) then gFunc.EquipSet(sets.MDT) end
     if (gcdisplay.GetToggle('(F12) PDT') == true) then gFunc.EquipSet(sets.PDT) end
+    if (gcdisplay.GetToggle('(^F12) Lock Weapon') == true) then gFunc.EquipSet(sets.Lock_Weapon) end
     if (gcdisplay.GetToggle('(F9) Reraise Check') == true and reraise < 1 and player.MainJobSync >= 25) then AshitaCore:GetChatManager():QueueCommand(1, '/echo *** RECAST RERAISE ***') end
         
     gcinclude.TownGear();
@@ -314,6 +324,7 @@ profile.HandlePrecast = function()
         
     if (gcdisplay.GetToggle('(F10) MDT') == true) then gFunc.EquipSet(sets.MDT) end
     if (gcdisplay.GetToggle('(F12) PDT') == true) then gFunc.EquipSet(sets.PDT) end
+    if (gcdisplay.GetToggle('(^F12) Lock Weapon') == true) then gFunc.EquipSet(sets.Lock_Weapon) end
 end
 
 profile.HandleMidcast = function()
@@ -361,6 +372,7 @@ profile.HandleMidcast = function()
 
     if (gcdisplay.GetToggle('(F10) MDT') == true) then gFunc.EquipSet(sets.MDT) end
     if (gcdisplay.GetToggle('(F12) PDT') == true) then gFunc.EquipSet(sets.PDT) end
+    if (gcdisplay.GetToggle('(^F12) Lock Weapon') == true) then gFunc.EquipSet(sets.Lock_Weapon) end
 end
 
 profile.HandleItem = function()
@@ -385,6 +397,7 @@ profile.HandleWeaponskill = function()
         
     if (gcdisplay.GetToggle('(F10) MDT') == true) then gFunc.EquipSet(sets.MDT) end
     if (gcdisplay.GetToggle('(F12) PDT') == true) then gFunc.EquipSet(sets.PDT) end
+    if (gcdisplay.GetToggle('(^F12) Lock Weapon') == true) then gFunc.EquipSet(sets.Lock_Weapon) end
 end
 
 profile.HandleAbility = function()

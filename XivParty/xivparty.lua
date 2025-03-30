@@ -86,9 +86,15 @@ local function setSetupEnabled(enabled)
 	if (not enabled) then
 		UpdateSettings();
 	else
-		print(chat.header(addon.name)..'Config opened (/xp or /xivparty)')
-		print(chat.header(addon.name)..'Retype the command to save and close')
-		print(chat.header(addon.name)..'To move party lists click and drag the yellow boxes')
+		print(chat.header(addon.name) .. chat.message('Command Descriptions:'));
+		print(chat.header(addon.name) .. chat.color1(2, '/xivp /xivparty /xp') .. chat.message(' - Opens configuration menu.'));
+		print(chat.header(addon.name) .. chat.color1(2, 'Retype /xivp /xivparty /xp') .. chat.message(' Tp save and close'));
+		print(chat.header(addon.name) .. chat.color1(2, '/xivp reload') .. chat.message(' Reloads addon if party list is broken'));
+		print(chat.header(addon.name) .. chat.message('To move party lists click and drag the yellow boxes'));
+		--print(chat.header(addon.name)..'Config opened (/xivp /xivparty /xp)')
+		--print(chat.header(addon.name)..'Retype the command to save and close')
+		--print(chat.header(addon.name)..'Type /xivp reload to reload addon if party list is broken')
+		--print(chat.header(addon.name)..'To move party lists click and drag the yellow boxes')
 	end
 end
 
@@ -97,7 +103,8 @@ local function init()
 		view = uiView.new(model) -- depends on settings, always create view after loading settings
 		isInitialized = true
 		if (announcedLogin == false) then
-			print(chat.header(addon.name)..'-Initializing- Type /xp or /xivparty to open config');
+			print(chat.header(addon.name) .. chat.color1(2, '/xivp') .. chat.message(' - Opens configuration menu.'));
+			--print(chat.header(addon.name)..'-Initializing- Type /xp or /xivparty to open config');
 			announcedLogin = true;
 		end
 	end
@@ -225,13 +232,29 @@ local function CheckState()
 	end
 end
 
-ashita.events.register('command', 'command_cb', function (e)
+--[[ashita.events.register('command', 'command_cb', function (e)
 	-- Parse the command arguments
 	local command_args = e.command:lower():args()
     if table.contains({'/xivparty', '/xp'}, command_args[1]) then
 		-- Toggle the config menu
 		setSetupEnabled(not isSetupEnabled[1]);
 		e.blocked = true;
+	end
+end);--]]
+
+ashita.events.register('command', 'command_cb', function (e)
+	-- Parse the command arguments
+	local command_args = e.command:lower():args()
+    if table.contains({'/xivparty', '/xivp', '/xp'}, command_args[1]) then
+		-- Toggle the config menu
+		setSetupEnabled(not isSetupEnabled[1]);
+		e.blocked = true;
+	end
+	if (#command_args > 1) then
+        if (command_args[2] == 'reload') then
+            AshitaCore:GetChatManager():QueueCommand(1, '/addon reload xivparty')
+            return;
+        end
 	end
 end);
 

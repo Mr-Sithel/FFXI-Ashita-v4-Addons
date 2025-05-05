@@ -92,6 +92,11 @@ local sets = {
     }, 
     Town = {
     },
+    -- Set to unequip Dusk Gear while moving
+    Moving = {
+        Hands = 'Pallas\'s Bracelets',
+        Feet = 'Fighter\'s Calligae',
+    },
     MP = {
         Legs = 'Savage loincloth',
     },
@@ -261,6 +266,9 @@ profile.HandleDefault = function()
         gFunc.EquipSet('IDLE_' .. gcdisplay.GetCycle('/war idle '));
     elseif (player.Status == 'Engaged') then
         gFunc.EquipSet('TP_' .. gcdisplay.GetCycle('/war tp '));
+        if (player.IsMoving == true) then
+            gFunc.EquipSet(sets.Moving);
+        end
     elseif (player.Status == 'Resting') then
         gFunc.EquipSet(sets.Resting);
     end

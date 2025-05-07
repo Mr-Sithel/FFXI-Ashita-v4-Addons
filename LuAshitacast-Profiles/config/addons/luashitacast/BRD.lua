@@ -30,6 +30,24 @@ local sets = {
     Precast = {
         Main = 'Terra\'s Staff',
     },
+    Precast_Songs = {
+        Ear2 = 'Loquac. Earring',
+        Body = 'Sha\'ir Manteel',
+        Ring2 = 'Minstrel\'s Ring',
+        Feet = 'Rostrum Pumps',
+	},
+    Precast_Songs_HPDown = {
+        Head = 'Genbu\'s Kabuto',
+        Neck = 'Bloodbead Amulet',
+        Ear1 = 'Cassie Earring',
+        Ear2 = 'Loquac. Earring',
+        Body = 'Sha\'ir Manteel',
+        Hands = 'Seiryu\'s Kote',
+        Ring1 = 'Bomb Queen Ring',
+        Back = 'Gigant Mantle',
+        Legs = 'Bard\'s Cannions',
+        Feet = 'Rostrum Pumps',
+    },
     -- Haste Gear for Utusemi: Ichi or Ni
     Utsu = { 
         Main = 'Terra\'s Staff',
@@ -80,9 +98,9 @@ profile.OnLoad = function()
     gSettings.AllowAddSet = true;
     gcdisplay.CreateToggle('(F10) MDT', false);
     gcdisplay.CreateToggle('(F12) PDT', false);
-    gcdisplay.CreateToggle('(F9) HP', false);
+    gcdisplay.CreateToggle('(F9) HP-Down', true);
     gcdisplay.CreateCycle('/brd tp ', { [1] = 'Default', [2] = 'HighAcc' }); --/brd tp
-    AshitaCore:GetChatManager():QueueCommand(-1, '/bind F9 /brd hptoggle');
+    AshitaCore:GetChatManager():QueueCommand(-1, '/bind F9 /brd hpdowntoggle');
     AshitaCore:GetChatManager():QueueCommand(-1, '/bind F10 /brd mdttoggle');
     AshitaCore:GetChatManager():QueueCommand(-1, '/bind F12 /brd pdttoggle');
     AshitaCore:GetChatManager():QueueCommand(-1, '/alias /brd /lac fwd'); 
@@ -114,8 +132,8 @@ profile.HandleCommand = function(args)
     if (args[1] == 'pdttoggle') then
     gcdisplay.AdvanceToggle('(F12) PDT');
     end
-    if (args[1] == 'hptoggle') then
-    gcdisplay.AdvanceToggle('(F9) HP');
+    if (args[1] == 'hpdowntoggle') then
+    gcdisplay.AdvanceToggle('(F9) HP-Down');
     end
 end
 
@@ -136,7 +154,6 @@ end
 
     if (gcdisplay.GetToggle('(F10) MDT') == true) then gFunc.EquipSet(sets.MDT) end
     if (gcdisplay.GetToggle('(F12) PDT') == true) then gFunc.EquipSet(sets.PDT) end
-    if (gcdisplay.GetToggle('(F9) HP') == true) then gFunc.EquipSet(sets.HP) end
 
     gcinclude.TownGear();
     gcinclude.CheckCommonDebuffs();
@@ -162,21 +179,15 @@ profile.SetLockStyle = function ()
 end
 
 profile.HandlePrecast = function()
-    local spell = gData.GetAction();
-    local player = gData.GetPlayer();
-
-    gFunc.EquipSet(sets.Precast);
-    if (spell.Skill == 'Singing') then
-        gFunc.ForceEquipSet('HP');
-        gFunc.EquipSet(sets.Precast);
-    if(player.HPP < 76) and (player.TP < 1000) then
-    gFunc.Equip('Ring1', 'Minstrel\'s Ring');
+    local action = gData.GetAction()
+    if (action.Type == 'Bard Song') and (gcdisplay.GetToggle('(F9) HP-Down') == true) then
+        gFunc.ForceEquipSet('Precast_Songs_HPDown')
+        gFunc.EquipSet(sets.Precast_Songs)
+    else
+        gFunc.EquipSet(sets.Precast)
     end
-end
-
-    if (gcdisplay.GetToggle('(F10) MDT') == true) then gFunc.EquipSet(sets.MDT) end
-    if (gcdisplay.GetToggle('(F12) PDT') == true) then gFunc.EquipSet(sets.PDT) end
-    if (gcdisplay.GetToggle('(F9) HP') == true) then gFunc.EquipSet(sets.HP) end
+    if (gcdisplay.GetToggle('(F10) MDT') == true) then gFunc.EquipSet(sets.MDT) end	
+	if (gcdisplay.GetToggle('(F12) PDT') == true) then gFunc.EquipSet(sets.PDT) end
 end
 
 profile.HandleMidcast = function()
@@ -249,7 +260,6 @@ profile.HandleMidcast = function()
 
     if (gcdisplay.GetToggle('(F10) MDT') == true) then gFunc.EquipSet(sets.MDT) end
     if (gcdisplay.GetToggle('(F12) PDT') == true) then gFunc.EquipSet(sets.PDT) end
-    if (gcdisplay.GetToggle('(F9) HP') == true) then gFunc.EquipSet(sets.HP) end
 end
 
 profile.HandleItem = function()
@@ -274,7 +284,6 @@ profile.HandleWeaponskill = function()
 
     if (gcdisplay.GetToggle('(F10) MDT') == true) then gFunc.EquipSet(sets.MDT) end
     if (gcdisplay.GetToggle('(F12) PDT') == true) then gFunc.EquipSet(sets.PDT) end
-    if (gcdisplay.GetToggle('(F9) HP') == true) then gFunc.EquipSet(sets.HP) end
 end
 
 profile.HandleAbility = function()

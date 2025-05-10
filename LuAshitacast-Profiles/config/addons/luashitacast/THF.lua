@@ -1,5 +1,6 @@
 local profile = {SubJob = AshitaCore:GetMemoryManager():GetPlayer():GetSubJob()};
 local gcdisplay = gFunc.LoadFile('common\\gcdisplay.lua');
+local isTargetTagged = gFunc.LoadFile('common\\isTargetTagged.lua');
 gcinclude = gFunc.LoadFile('common\\gcinclude.lua');
 gcinclude.VarTable();
 
@@ -8,10 +9,11 @@ gcinclude.VarTable();
 -- /thf idle to change Idle sets from Default/ALT
 -- /thf tp to change Tp sets from Default/HighAcc
 -- /thf ws to change Ws sets from Default/HighAcc (Evisceration, Shark Bite, Mercy Stroke have their own set)
--- F9 Toggles locking a TH set (True by default)
+-- F9 Toggles locking a TH set (False by default)
 -- F10 Toggles locking a MDT set
 -- F12 Toggles locking a EVA set
 -- Check below for /lockstyleset (4 is being used by default)
+-- TH will apply on 1st hit if casting spell, ranged or engaged.
 
 local ta_rogue_armlets = true
 
@@ -138,6 +140,9 @@ profile.HandleDefault = function()
     local player = gData.GetPlayer();
         if (player.Status == 'Engaged') then
             gFunc.EquipSet(sets.Tp_Default)
+            if (not isTargetTagged()) then
+                gFunc.EquipSet(sets.TH);
+            end
             if (gcdisplay.GetCycle('/thf tp ') ~= 'Default') then
                 gFunc.EquipSet('TP_' .. gcdisplay.GetCycle('/thf tp ')) end
             if (gcdisplay.GetToggle('(F9) TH') == true) then gFunc.EquipSet(sets.TH) end
@@ -189,6 +194,9 @@ end
 profile.HandleMidcast = function()
     local spell = gData.GetAction();
 
+    if (not isTargetTagged()) then
+        gFunc.EquipSet(sets.TH);
+    end
     if (gcdisplay.GetToggle('(F9) TH') == true) then gFunc.EquipSet(sets.TH) end
     if (spell.Skill == 'Ninjutsu') then
         if string.contains(spell.Name, 'Utsusemi') then
@@ -218,6 +226,9 @@ end
 
 profile.HandleMidshot = function()
     gFunc.EquipSet(sets.Ranged)
+    if (not isTargetTagged()) then
+        gFunc.EquipSet(sets.TH);
+    end
     local equipment = gData.GetEquipment()
     if equipment.Ammo ~= nil then
         return equipment.Ammo.Name;

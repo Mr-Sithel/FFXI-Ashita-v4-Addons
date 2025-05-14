@@ -275,7 +275,7 @@ profile.OnLoad = function()
     gcdisplay.CreateCycle('/bst idle ', { [1] = 'Default', [2] = 'L20', [3] = 'L30', [4] = 'L40', [5] = 'L50', [6] = 'L60', [7] = 'ALT' });     --/bst idle
     gcdisplay.CreateCycle('/bst tp ', { [1] = 'Default', [2] = 'L20', [3] = 'L30', [4] = 'L40', [5] = 'L50', [6] = 'L60', [7] = 'HighAcc' });   --/bst tp
     gcdisplay.CreateCycle('/bst ws ', { [1] = 'Default', [2] = 'L20', [3] = 'L30', [4] = 'L40', [5] = 'L50', [6] = 'L60', [7] = 'HighAcc' });   --/bst ws
-    gcdisplay.CreateCycle('/bst pet ', { [1] = 'Any Pet', [2] = 'Sheep', [3] = 'Lizard', [4] = 'Crab', [5] = 'Tiger', [6] = 'Rabbit', [7] = 'Mandy', [8] = 'Flytrap' }); --/bst pet
+    gcdisplay.CreateCycle('/bst pet ', { [1] = 'Sheep', [2] = 'Flytrap', [3] = 'Lizard', [4] = 'Crab', [5] = 'Tiger', [6] = 'Rabbit', [7] = 'Mandy', [8] = 'Any Pet' }); --/bst pet
     gcdisplay.CreateCycle('/bst food ', { [1] = 'Beta-24+', [2] = 'Gamma-36+', [3] = 'Delta-48+', [4] = 'Epsilon-60+', [5] = 'Zeta-72+' });     --/bst food
     AshitaCore:GetChatManager():QueueCommand(-1, '/bind F9 /bst mptoggle');
     AshitaCore:GetChatManager():QueueCommand(-1, '/bind F10 /bst mdttoggle');
